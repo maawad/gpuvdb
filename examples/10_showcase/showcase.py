@@ -46,51 +46,6 @@ def heart_coords(center_x, center_y, center_z, scale=1.0):
 
     return coords_unique
 
-def mandelbulb_coords(center_x, center_y, center_z, radius=20, power=8):
-    """Generate mandelbulb fractal coordinates"""
-    samples = 50
-    coords_list = []
-
-    for i in range(samples):
-        for j in range(samples):
-            u = (i / samples) * 2 - 1
-            v = (j / samples) * 2 - 1
-
-            # Spherical coordinates
-            theta = np.arccos(v)
-            phi = 2 * np.pi * u
-
-            # Mandelbulb iterations
-            x, y, z = 0.0, 0.0, 0.0
-            dx, dy, dz = 1.0, 0.0, 0.0
-
-            for _ in range(10):
-                r = np.sqrt(x*x + y*y + z*z)
-                if r > 2.0:
-                    break
-
-                # Mandelbulb power formula
-                theta_n = np.arctan2(np.sqrt(x*x + y*y), z) * power
-                phi_n = np.arctan2(y, x) * power
-                r_n = r ** power
-
-                x = r_n * np.sin(theta_n) * np.cos(phi_n) + np.sin(theta)
-                y = r_n * np.sin(theta_n) * np.sin(phi_n) + np.cos(phi)
-                z = r_n * np.cos(theta_n)
-
-            if r < 2.0:
-                vx = int(center_x + x * radius)
-                vy = int(center_y + y * radius)
-                vz = int(center_z + z * radius)
-
-                if 0 <= vx < 128 and 0 <= vy < 128 and 0 <= vz < 128:
-                    coords_list.append([vx, vy, vz])
-
-    if coords_list:
-        coords = torch.tensor(coords_list, dtype=torch.int32)
-        return torch.unique(coords, dim=0)
-    return torch.empty((0, 3), dtype=torch.int32)
-
 def main():
     print("GPU-VDB Example 10: Showcase")
 
