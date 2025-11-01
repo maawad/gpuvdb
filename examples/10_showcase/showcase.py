@@ -60,16 +60,16 @@ def main():
     print("VDB tree initialized")
 
     print("\nGenerating showcase scene...")
-    
+
     # Big filled heart in the center
     print("  - Heart (filled interior)...")
     heart = heart_coords(64, 70, 64, scale=25.0)
-    
+
     # Color gradient based on Y coordinate (top = bright, bottom = dark)
     vy = heart[:, 1].float()
     heart_vals = 0.5 + 0.5 * ((vy - vy.min()) / (vy.max() - vy.min() + 1e-6))
     heart_vals = heart_vals.to(torch.float32)
-    
+
     # Insert heart (no extra spheres - just the heart!)
     if len(heart) > 0:
         tree.insert(heart.to(device), heart_vals.to(device))
@@ -87,7 +87,7 @@ def main():
         [60, 80, 64],   # Top of heart
         [70, 60, 64],   # Bottom of heart
     ], dtype=torch.int32, device=device)
-    
+
     test_active = tree.active(test_coords)
     errors = 0
     if test_active.sum().item() < 2:  # At least 2 should be active
