@@ -1,5 +1,8 @@
 # GPU-VDB
 
+> [!IMPORTANT]
+> This is an experimental project generated with AI assistance (Cursor). This project is intended for research purposes only. This is not a product. Use it at your own risk and discretion.
+
 **GPU-native VDB implementation for AMD GPUs**
 
 A high-performance sparse voxel data structure designed from the ground up for GPU execution on AMD Instinct accelerators.
@@ -162,6 +165,6 @@ See [LICENSE](LICENSE) file for details.
 
 ## Author
 
-**Muhammad Awad** - [mawad@duck.com](mailto:mawad@duck.com)
+**Muhammad Awad** - [mawad@duck.com](mailto:muhammad.a.awad@gmail.com)
 
 GPU-VDB is designed for high-performance voxel processing on AMD accelerators.
