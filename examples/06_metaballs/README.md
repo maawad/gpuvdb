@@ -1,27 +1,15 @@
 # Example 06: Metaballs
 
-Organic blob simulation using inverse squared distance fields.
+Animated metaballs with smooth blending.
 
-## Output
+## Visualizations
 
-![Metaballs Visualization](output.png)
+### 2D Slices with Tree Structure
+![2D View](metaballs_2d.png)
 
-## What It Does
+Shows 2D slices with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
-- Creates 5 metaballs (implicit surfaces)
-- Computes smooth blending using field summation
-- Shows organic "blobby" surfaces that merge smoothly
-- Visualizes field strength with smooth gradients
+### 3D Point Cloud
+![3D View](metaballs_3d.png)
 
-## Results
-
-- **Metaballs**: 5 organic blobs
-- **Field threshold**: 1.0
-- **Voxels**: Varies by threshold (sparse representation)
-
-## Run
-
-```bash
-python3 metaballs.py
-```
-
+Full 3D visualization of the voxel data.

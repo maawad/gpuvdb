@@ -1,28 +1,15 @@
 # Example 01: Simple Sphere
 
-Single sphere visualization with accuracy validation.
+Basic sphere rendering demonstrating GPU-VDB storage and query operations.
 
-## Output
+## Visualizations
 
-![Simple Sphere Visualization](output.png)
+### 2D Slices with Tree Structure
+![Sphere 2D](sphere_2d.png)
 
-## What It Does
+Shows 2D slices of the sphere with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
-- Creates a sphere at center (50, 50, 50) with radius 20
-- Queries a 2D slice through the center
-- Validates accuracy against analytical formula πr²
-- Shows both active voxels and their values
+### 3D Point Cloud
+![Sphere 3D](sphere_3d.png)
 
-## Results
-
-- **Active voxels**: 1,256
-- **Expected (πr²)**: 1,256.6
-- **Accuracy**: 99.95% ✅
-
-## Run
-
-```bash
-module load pytorch
-python3 simple_sphere.py
-```
-
+Full 3D visualization of the sphere voxels (~1200 voxels).

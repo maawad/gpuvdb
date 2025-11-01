@@ -1,27 +1,15 @@
-# Example 07: 3D Conway's Game of Life
+# Example 07: Conway's Game of Life (3D)
 
-3D cellular automaton simulation.
+3D cellular automaton with oscillating patterns.
 
-## Output
+## Visualizations
 
-![3D Conway Visualization](output.png)
+### 2D Slices with Tree Structure
+![2D View](conway_2d.png)
 
-## What It Does
+Shows 2D slices with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
-- Implements Conway's Game of Life in 3D
-- Custom rules for 26-neighborhood (3D)
-- Simulates 10 steps of evolution
-- Shows alive/dead cell patterns over time
+### 3D Point Cloud
+![3D View](conway_3d.png)
 
-## Results
-
-- **Initial pattern**: 3D glider-gun structure
-- **Steps**: 10 simulation iterations
-- **Rules**: Alive with 4-7 neighbors, birth with 5
-
-## Run
-
-```bash
-python3 conway_3d.py
-```
-
+Full 3D visualization of the voxel data.

@@ -49,12 +49,12 @@ struct leaf_node {
   }
 
   // Convert local coordinate to linear index
-  GPUVDB_DEVICE static uint32_t coord_to_offset(uint32_t x, uint32_t y, uint32_t z) {
+  GPUVDB_HOST_DEVICE static uint32_t coord_to_offset(uint32_t x, uint32_t y, uint32_t z) {
     return (x << (2 * log2dim)) | (y << log2dim) | z;
   }
 
   // Check if voxel is active
-  GPUVDB_DEVICE bool is_active(uint32_t offset) const {
+  GPUVDB_HOST_DEVICE bool is_active(uint32_t offset) const {
     uint32_t word_idx = offset >> 5;  // divide by 32
     uint32_t bit_idx  = offset & 31;  // modulo 32
     return (active_mask[word_idx] & (1u << bit_idx)) != 0;
@@ -110,11 +110,11 @@ struct internal_node {
     }
   }
 
-  GPUVDB_DEVICE static uint32_t coord_to_offset(uint32_t x, uint32_t y, uint32_t z) {
+  GPUVDB_HOST_DEVICE static uint32_t coord_to_offset(uint32_t x, uint32_t y, uint32_t z) {
     return (x << (2 * log2dim)) | (y << log2dim) | z;
   }
 
-  GPUVDB_DEVICE bool has_child(uint32_t offset) const {
+  GPUVDB_HOST_DEVICE bool has_child(uint32_t offset) const {
     uint32_t word_idx = offset >> 5;
     uint32_t bit_idx  = offset & 31;
     return (child_mask[word_idx] & (1u << bit_idx)) != 0;
@@ -127,7 +127,7 @@ struct internal_node {
     atomicOr(&child_mask[word_idx], 1u << bit_idx);
   }
 
-  GPUVDB_DEVICE index_type get_child(uint32_t offset) const {
+  GPUVDB_HOST_DEVICE index_type get_child(uint32_t offset) const {
     return children[offset];
   }
 };
@@ -157,11 +157,11 @@ struct root_node {
     }
   }
 
-  GPUVDB_DEVICE static uint32_t coord_to_offset(uint32_t x, uint32_t y, uint32_t z) {
+  GPUVDB_HOST_DEVICE static uint32_t coord_to_offset(uint32_t x, uint32_t y, uint32_t z) {
     return (x << (2 * log2dim)) | (y << log2dim) | z;
   }
 
-  GPUVDB_DEVICE bool has_child(uint32_t offset) const {
+  GPUVDB_HOST_DEVICE bool has_child(uint32_t offset) const {
     uint32_t word_idx = offset >> 5;
     uint32_t bit_idx  = offset & 31;
     return (child_mask[word_idx] & (1u << bit_idx)) != 0;
@@ -174,7 +174,7 @@ struct root_node {
     atomicOr(&child_mask[word_idx], 1u << bit_idx);
   }
 
-  GPUVDB_DEVICE index_type get_child(uint32_t offset) const {
+  GPUVDB_HOST_DEVICE index_type get_child(uint32_t offset) const {
     return children[offset];
   }
 };

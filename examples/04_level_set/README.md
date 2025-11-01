@@ -1,28 +1,15 @@
-# Example 04: Level Set
+# Example 04: Level Set (SDF)
 
-Signed Distance Field (SDF) visualization.
+Signed Distance Field combining multiple primitives.
 
-## Output
+## Visualizations
 
-![Level Set SDF](output.png)
+### 2D Slices with Tree Structure
+![2D View](levelset_2d.png)
 
-## What It Does
+Shows 2D slices with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
-- Creates composite SDF from 3 primitives: Sphere ∪ Box ∪ Torus
-- Stores narrow band around surface (3-voxel bandwidth)
-- Visualizes with color coding: Blue=inside, Red=outside
-- Yellow contour shows zero-crossing (exact surface)
+### 3D Point Cloud
+![3D View](levelset_3d.png)
 
-## Results
-
-- **Active voxels**: 46,517 (in narrow band)
-- **Bandwidth**: ±3 voxels from surface
-- **Grid size**: 100³
-
-## Run
-
-```bash
-module load pytorch
-python3 level_set.py
-```
-
+Full 3D visualization of the voxel data.

@@ -102,12 +102,12 @@ setup(
     cmdclass={"build_ext": HIPBuild},
     install_requires=[
         "numpy>=1.20",
-        "torch>=2.0",
         "pybind11>=2.10",
     ],
     extras_require={
         "dev": ["pytest", "ruff"],
         "viz": ["matplotlib>=3.5"],
+        "torch": ["torch>=2.0"],
     },
     python_requires=">=3.8",
     classifiers=[

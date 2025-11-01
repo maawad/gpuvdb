@@ -1,11 +1,26 @@
 # GPU-VDB
 
-> [!IMPORTANT]
-> This is an experimental project generated with AI assistance (Cursor). This project is intended for research purposes only. This is not a product. Use it at your own risk and discretion.
-
 **GPU-native VDB implementation for AMD GPUs**
 
 A high-performance sparse voxel data structure designed from the ground up for GPU execution on AMD Instinct accelerators.
+
+<p align="center">
+  <img src="examples/10_showcase/showcase_2d.png" alt="GPU-VDB 2D Slices" width="100%"/>
+</p>
+
+<p align="center">
+  <img src="examples/10_showcase/showcase_3d.png" alt="GPU-VDB 3D Heart" width="70%"/>
+</p>
+
+<p align="center">
+  <em>Filled 3D heart (41,450 voxels) showing hierarchical tree structure<br/>
+  Blue=Root nodes, Green=Internal nodes, Red=Leaf nodes</em>
+</p>
+
+---
+
+> [!IMPORTANT]
+> This is an experimental project generated with AI assistance (Cursor). This project is intended for research purposes only. This is not a product. Use it at your own risk and discretion.
 
 ## Overview
 
@@ -114,7 +129,7 @@ All tensors must be on GPU. The API handles tensor validation and provides helpf
 
 ## Examples
 
-Eight visualization examples demonstrating different use cases:
+Ten visualization examples demonstrating different use cases:
 
 | Example | Description | Voxels |
 |---------|-------------|--------|
@@ -125,7 +140,9 @@ Eight visualization examples demonstrating different use cases:
 | [05_procedural_noise](examples/05_procedural_noise/) | 3D Perlin noise field | 1M |
 | [06_metaballs](examples/06_metaballs/) | Organic blob simulation with smooth blending | 122K |
 | [07_conway_3d](examples/07_conway_3d/) | 3D cellular automaton (Game of Life) | Varies |
-| [08_voxel_art](examples/08_voxel_art/) | Procedural castle with towers | Varies |
+| [08_voxel_art](examples/08_voxel_art/) | Procedural skull with artistic composition | Varies |
+| [09_heart](examples/09_heart/) | Romantic 3D heart shape | 7,645 |
+| [10_showcase](examples/10_showcase/) | **Filled heart with tree visualization (showcase)** | **41,450** |
 
 Run any example:
 ```bash

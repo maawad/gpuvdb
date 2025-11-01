@@ -1,28 +1,15 @@
-# Example 03: Fractal Voxels
+# Example 03: Fractal Voxels (Mandelbulb)
 
-3D Mandelbulb fractal visualization (power=8).
+Procedurally generated Mandelbulb fractal stored in GPU-VDB.
 
-## Output
+## Visualizations
 
-![Mandelbulb Fractal](output.png)
+### 2D Slices with Tree Structure
+![2D View](fractal_2d.png)
 
-## What It Does
+Shows 2D slices with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
-- Generates Mandelbulb fractal using distance estimation
-- Samples 80³ = 512K points to find surface
-- Stores only voxels near fractal surface (threshold-based)
-- Shows 6 different Z-slices through the fractal
+### 3D Point Cloud
+![3D View](fractal_3d.png)
 
-## Results
-
-- **Active voxels**: 388,667
-- **Sampling resolution**: 80³ points
-- **Surface threshold**: 0.1
-
-## Run
-
-```bash
-module load pytorch
-python3 fractal_voxels.py
-```
-
+Full 3D visualization of the voxel data.

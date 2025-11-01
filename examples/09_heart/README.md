@@ -1,15 +1,15 @@
-# Example 05: Procedural Noise
+# Example 09: 3D Heart
 
-3D Perlin noise field stored sparsely.
+Romantic 3D heart using parametric equations.
 
 ## Visualizations
 
 ### 2D Slices with Tree Structure
-![2D View](noise_2d.png)
+![2D View](heart_2d.png)
 
 Shows 2D slices with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
 ### 3D Point Cloud
-![3D View](noise_3d.png)
+![3D View](heart_3d.png)
 
 Full 3D visualization of the voxel data.

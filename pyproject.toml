@@ -17,24 +17,18 @@ readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     "numpy>=1.20",
-    "torch>=2.0",
     "pybind11>=2.10",
 ]
+
+[project.optional-dependencies]
+torch = ["torch>=2.0"]
+viz = ["matplotlib>=3.5"]
+dev = ["pytest", "ruff", "matplotlib"]
 
 [project.urls]
 Homepage = "https://github.com/maawad/gpuvdb"
 Repository = "https://github.com/maawad/gpuvdb"
 Issues = "https://github.com/maawad/gpuvdb/issues"
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "matplotlib",
-    "ruff",
-]
-viz = [
-    "matplotlib>=3.5",
-]
 
 [tool.setuptools]
 package-dir = { "" = "." }

@@ -93,6 +93,10 @@ struct pool_allocator {
 #endif
     return count;
   }
+
+  // Get raw device pool pointer (for host-side access)
+  node_type* get_pool() { return pool_; }
+  const node_type* get_pool() const { return pool_; }
 };
 
 }  // namespace detail

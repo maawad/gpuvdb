@@ -10,6 +10,7 @@ import gpuvdb
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
+from mpl_toolkits.mplot3d import Axes3D
 
 def main():
     print("GPU-VDB Example 01: Simple Sphere")
@@ -54,9 +55,9 @@ def main():
     # Validation
     print("\nValidation:")
     test_coords = torch.tensor([
-        [center_x, center_y, center_z],  # center
-        [center_x + 10, center_y, center_z],  # inside
-        [center_x + 25, center_y, center_z],  # outside
+        [center_x, center_y, center_z],
+        [center_x + 10, center_y, center_z],
+        [center_x + 25, center_y, center_z],
     ], dtype=torch.int32, device=device)
 
     test_values = tree.query(test_coords)
@@ -75,49 +76,94 @@ def main():
 
     if errors == 0:
         print("  All tests passed")
-    else:
-        print(f"  {errors} tests failed")
-        tree.free()
-        return errors
 
-    # Visualize
+    # Export tree structure
+    print("\nExporting tree structure...")
+    mesh = tree.export_quad_mesh()
+    vertices = mesh['vertices']
+    quads = mesh['quads']
+    levels = mesh['levels']
+    print(f"Tree: {len(vertices)} vertices, {len(quads)} quads")
+
+    # 2D visualization with tree overlay
+    print("\nGenerating 2D visualization...")
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 
-    ax = axes[0]
-    im1 = ax.imshow(active_cpu, cmap='viridis', origin='lower', extent=[0, size, 0, size])
-    ax.set_title(f'Active Voxels (z={center_z} slice)', fontsize=14, weight='bold')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.grid(False)
-    circle = plt.Circle((center_x, center_y), radius, fill=False,
-                       color='red', linewidth=2, linestyle='--', label='Expected')
-    ax.add_patch(circle)
-    ax.legend()
-    plt.colorbar(im1, ax=ax, label='Active')
+    for subplot_idx, z_slice in enumerate([center_z - 10, center_z]):
+        ax = axes[subplot_idx]
 
-    ax = axes[1]
-    im2 = ax.imshow(values_cpu, cmap='plasma', origin='lower', extent=[0, size, 0, size])
-    ax.set_title(f'Voxel Values (z={center_z} slice)', fontsize=14, weight='bold')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.grid(False)
-    circle = plt.Circle((center_x, center_y), radius, fill=False,
-                       color='cyan', linewidth=2, linestyle='--', label='Expected')
-    ax.add_patch(circle)
-    ax.legend()
-    plt.colorbar(im2, ax=ax, label='Value')
+        # Query slice
+        coords_slice = torch.tensor([[x, y, z_slice] for y in range(size) for x in range(size)],
+                                    dtype=torch.int32, device=device)
+        values_slice = tree.query(coords_slice).cpu().numpy().reshape(size, size)
+        active_slice = tree.active(coords_slice).cpu().numpy().reshape(size, size)
 
-    fig.suptitle(f'GPU-VDB Simple Sphere (r={radius}, {active_count} voxels, {accuracy:.1f}% accurate)',
-                 fontsize=16, weight='bold', y=0.98)
+        masked = np.ma.masked_where(~active_slice, values_slice)
+        ax.imshow(masked, cmap='viridis', origin='lower', extent=[0, size, 0, size])
+
+        # Overlay tree structure
+        for level in [2, 1, 0]:
+            level_mask = levels == level
+            level_quads = quads[level_mask]
+            color = ['#ff0000', '#00ff00', '#0000ff'][level]
+            alpha = [0.3, 0.4, 0.5][level]
+            lw = [0.8, 1.2, 1.5][level]
+
+            for quad in level_quads:
+                pts = vertices[quad]
+                z_coords = pts[:, 2]
+                if z_coords.min() <= z_slice + 4 and z_coords.max() >= z_slice - 4:
+                    x_loop = np.append(pts[:, 0], pts[0, 0])
+                    y_loop = np.append(pts[:, 1], pts[0, 1])
+                    ax.plot(x_loop, y_loop, color=color, alpha=alpha, linewidth=lw)
+
+        ax.set_title(f'Z={z_slice} slice', fontsize=12, weight='bold')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_xlim(0, size)
+        ax.set_ylim(0, size)
+
+    fig.suptitle(f'GPU-VDB Sphere 2D (r={radius}, Blue=Root, Green=Internal, Red=Leaf)',
+                 fontsize=14, weight='bold')
     plt.tight_layout()
 
-    print("\nGenerating visualization...")
-    output_path = Path(__file__).parent / 'output.png'
-    plt.savefig(output_path, dpi=150, bbox_inches='tight')
-    print(f"Saved to: {output_path}")
+    output_2d = Path(__file__).parent / 'sphere_2d.png'
+    plt.savefig(output_2d, dpi=150, bbox_inches='tight')
+    print(f"Saved 2D to: {output_2d}")
+
+    # 3D visualization - show actual voxels
+    print("\nGenerating 3D visualization...")
+
+    # Sample 3D space
+    coords_3d = torch.tensor([[x, y, z] for x in range(100) for y in range(100) for z in range(100)],
+                             dtype=torch.int32, device=device)
+    vals_3d = tree.query(coords_3d)
+    actv_3d = tree.active(coords_3d)
+
+    coords_active = coords_3d[actv_3d].cpu().numpy()
+    vals_active = vals_3d[actv_3d].cpu().numpy()
+
+    fig = plt.figure(figsize=(14, 14))
+    ax = fig.add_subplot(111, projection='3d')
+
+    sc = ax.scatter(coords_active[:, 0], coords_active[:, 1], coords_active[:, 2],
+                   c=vals_active, cmap='viridis', s=5, alpha=0.6)
+    plt.colorbar(sc, ax=ax, label='Value', shrink=0.5)
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    ax.set_title(f'GPU-VDB Sphere 3D ({len(coords_active)} voxels)', fontsize=14, weight='bold')
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.set_zlim(0, 100)
+
+    output_3d = Path(__file__).parent / 'sphere_3d.png'
+    plt.savefig(output_3d, dpi=150, bbox_inches='tight')
+    print(f"Saved 3D to: {output_3d}")
 
     tree.free()
-    return 0
+    return errors
 
 if __name__ == '__main__':
     sys.exit(main())

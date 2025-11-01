@@ -1,27 +1,15 @@
-# Example 08: Voxel Art
+# Example 08: Voxel Art (Skull)
 
-Procedural skull generation with anatomical features.
+Procedurally generated skull using SDFs.
 
-## Output
+## Visualizations
 
-![Voxel Skull](output.png)
+### 2D Slices with Tree Structure
+![2D View](skull_2d.png)
 
-## What It Does
+Shows 2D slices with VDB tree structure overlay (Blue=Root, Green=Internal, Red=Leaf nodes).
 
-- Generates a procedural skull structure
-- Cranium, eye sockets, nose cavity
-- Jaw with teeth, cheekbones
-- Realistic anatomical proportions
+### 3D Point Cloud
+![3D View](skull_3d.png)
 
-## Results
-
-- **Features**: Eyes, nose, teeth, bone structure
-- **Style**: Medical/anatomical visualization
-- **Colormap**: 'bone' for realistic appearance
-
-## Run
-
-```bash
-python3 voxel_art.py
-```
-
+Full 3D visualization of the voxel data.

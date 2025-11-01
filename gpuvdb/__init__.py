@@ -120,6 +120,18 @@ try:
             """
             return self._tree.get_memory_stats()
 
+        def export_quad_mesh(self):
+            """Export tree structure as a quad mesh
+
+            Returns:
+                dict: {
+                    'vertices': numpy.ndarray[V, 3] float32 - vertex positions
+                    'quads': numpy.ndarray[F, 4] int32 - quad face indices
+                    'levels': numpy.ndarray[F] int32 - hierarchy level per face (0=leaf, 1=internal, 2=root)
+                }
+            """
+            return self._tree.export_quad_mesh()
+
         # Context manager support
         def __enter__(self):
             return self

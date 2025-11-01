@@ -143,6 +143,17 @@ public:
     num_leaf_nodes = tree_impl_.leaf_alloc_.get_count();
   }
 
+  // Accessor methods for tree export (used by export_quad_mesh)
+  using root_node_type = typename tree_impl_type::root_node_type;
+  using internal_node_type = typename tree_impl_type::internal_node_type;
+  using leaf_node_type = typename tree_impl_type::leaf_node_type;
+  using internal_allocator_type = typename tree_impl_type::internal_allocator_type;
+  using leaf_allocator_type = typename tree_impl_type::leaf_allocator_type;
+
+  root_node_type* get_root() const { return tree_impl_.root_; }
+  internal_allocator_type& get_internal_allocator() { return tree_impl_.internal_alloc_; }
+  leaf_allocator_type& get_leaf_allocator() { return tree_impl_.leaf_alloc_; }
+
 private:
   tree_impl_type tree_impl_;
 };
