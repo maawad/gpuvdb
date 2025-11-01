@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Muhammad Awad
+
+[build-system]
+requires = ["setuptools>=61", "wheel", "pybind11>=2.10"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gpuvdb"
+version = "0.1.0"
+description = "GPU-native VDB implementation for AMD GPUs with zero-copy PyTorch bindings"
+authors = [
+    { name = "Muhammad Awad", email = "mawad@duck.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20",
+    "torch>=2.0",
+    "pybind11>=2.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/maawad/gpuvdb"
+Repository = "https://github.com/maawad/gpuvdb"
+Issues = "https://github.com/maawad/gpuvdb/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "matplotlib",
+    "ruff",
+]
+viz = [
+    "matplotlib>=3.5",
+]
+
+[tool.setuptools]
+package-dir = { "" = "." }
+
+[tool.setuptools.packages.find]
+include = ["gpuvdb*"]
+
+[tool.ruff]
+line-length = 120
+exclude = [
+    "**/*.ipynb",
+    "build/**",
+    "csrc/**"
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501", "E701", "E731", "E741", "F841", "F401"]
+
+[tool.ruff.format]
+quote-style = "double"
+

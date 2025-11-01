@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Muhammad Awad
+
+include LICENSE
+include README.md
+include pyproject.toml
+recursive-include csrc *.cpp *.hpp
+recursive-include examples *.py *.png *.md
+

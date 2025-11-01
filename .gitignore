@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Muhammad Awad
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+csrc/*.so
+gpuvdb/_gpuvdb.so
+
+# Temporary files
+*.log
+*.tmp
+
